@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { StepsComponent } from './steps/steps.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListTenantsComponent } from './list-tenants/list-tenants.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ListNamespacesComponent,
     ListConfigComponent,
     StepsComponent,
-    StepperComponent
+    StepperComponent,
+    ListTenantsComponent
   ],
   imports: [
     BrowserModule,
