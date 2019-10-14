@@ -11,7 +11,7 @@
           *ngFor="let namespace of namespaces"
           [value]="namespace.title"
           required
-          (click)="validateCrtStep()"
+          (click)="validateCrtStep(namespace.title)"
         >
           <div class="card-header">
             <p class="card-text">
