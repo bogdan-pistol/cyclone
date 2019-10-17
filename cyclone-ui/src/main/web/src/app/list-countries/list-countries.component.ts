@@ -4,6 +4,7 @@ import { Country } from "./../shared/models/country-model";
 import { SelectionsService } from "../shared/services/selections.service";
 import { ModalComponent } from "./../shared/modal/modal.component";
 import { MatDialog } from "@angular/material/dialog";
+
 @Component({
   selector: "app-list-countries",
   templateUrl: "./list-countries.component.html",
@@ -14,6 +15,7 @@ export class ListCountriesComponent implements OnInit {
   listCountries: FormGroup;
   name: string;
   countries: Country[] = [
+
     { name: "Romania", icon: "ro" },
     { name: "Spain", icon: "es" },
     { name: "France", icon: "fr" },

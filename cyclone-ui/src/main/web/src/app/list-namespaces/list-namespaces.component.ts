@@ -1,8 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SelectionsService } from "../shared/services/selections.service";
+
 import { ModalComponent } from "./../shared/modal/modal.component";
 import { MatDialog } from "@angular/material/dialog";
+
 
 @Component({
   selector: "app-list-namespaces",
@@ -13,6 +15,7 @@ export class ListNamespacesComponent implements OnInit {
   @Output() validateFormEmitter = new EventEmitter();
   listNamespaces: FormGroup;
   crtSelection: any;
+
   name: string;
   namespaces: any[] = [
     {
@@ -30,6 +33,7 @@ export class ListNamespacesComponent implements OnInit {
   ];
 
   constructor(
+
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private selectionsService: SelectionsService
@@ -40,6 +44,7 @@ export class ListNamespacesComponent implements OnInit {
   }
 
   ngOnInit() {}
+
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
@@ -54,6 +59,7 @@ export class ListNamespacesComponent implements OnInit {
       }
     });
   }
+
 
   validateCrtStep(selectedValue) {
     this.selectionsService.onChangeNamespaceSubject.next(selectedValue);

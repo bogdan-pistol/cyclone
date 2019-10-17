@@ -5,6 +5,7 @@ import { SelectionsService } from "../shared/services/selections.service";
 import { ModalComponent } from "./../shared/modal/modal.component";
 import { MatDialog } from "@angular/material/dialog";
 
+
 @Component({
   selector: "app-list-tenants",
   templateUrl: "./list-tenants.component.html",
@@ -21,7 +22,9 @@ export class ListTenantsComponent implements OnInit {
   ];
 
   constructor(
+
     public dialog: MatDialog,
+
     private formBuilder: FormBuilder,
     private selectionsService: SelectionsService
   ) {
@@ -31,6 +34,7 @@ export class ListTenantsComponent implements OnInit {
   }
 
   ngOnInit() {}
+
 
   openDialog(): void {
     const dialogRef = this.dialog.open(ModalComponent, {
@@ -45,6 +49,7 @@ export class ListTenantsComponent implements OnInit {
       }
     });
   }
+
 
   validateCrtStep(selectedValue) {
     this.selectionsService.onChangeTenantSubject.next(selectedValue);
