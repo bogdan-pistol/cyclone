@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SelectionsService } from "../shared/services/selections.service";
+import { ModalComponent } from "./../shared/modal/modal.component";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: "app-list-namespaces",
@@ -11,28 +13,24 @@ export class ListNamespacesComponent implements OnInit {
   @Output() validateFormEmitter = new EventEmitter();
   listNamespaces: FormGroup;
   crtSelection: any;
+  name: string;
   namespaces: any[] = [
     {
-      title: "Dev",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s",
+      name: "Dev",
       icon: "developer_mode"
     },
     {
-      title: "Prod",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s",
+      name: "Prod",
       icon: "storage"
     },
     {
-      title: "Prod qualif",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s",
+      name: "Prod qualif",
       icon: "pages"
     }
   ];
 
   constructor(
+    public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private selectionsService: SelectionsService
   ) {
@@ -42,6 +40,20 @@ export class ListNamespacesComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: "250px",
+      data: { name: this.name }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // this.name = result;
+      if (result) {
+        this.namespaces.push({ name: result, icon: "crop_free" });
+      }
+    });
+  }
 
   validateCrtStep(selectedValue) {
     this.selectionsService.onChangeNamespaceSubject.next(selectedValue);

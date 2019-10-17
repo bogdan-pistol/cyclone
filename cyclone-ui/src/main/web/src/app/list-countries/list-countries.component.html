@@ -3,7 +3,7 @@
     <form [formGroup]="listCountries" class="container">
       <mat-radio-group
         aria-labelledby="example-radio-group-label"
-        class="row"
+        class="row mx-0"
         formControlName="selectedCountry"
       >
         <mat-radio-button
@@ -19,10 +19,15 @@
             </p>
           </div>
           <div class="card-body">
-            <span class="flag-icon flag-icon-{{ country.id }}"></span>
+            <span class="flag-icon flag-icon-{{ country.icon }}"></span>
           </div>
         </mat-radio-button>
       </mat-radio-group>
+      <div class="card col-4 shadow-sm">
+        <div class="card-body text-center">
+          <a class="addNewAnchor" (click)="openDialog()">+</a>
+        </div>
+      </div>
     </form>
   </div>
 </div>
