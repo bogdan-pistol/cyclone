@@ -16,7 +16,7 @@ import { StepperComponent } from "./stepper/stepper.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ListTenantsComponent } from "./list-tenants/list-tenants.component";
 import { SimpleNotificationsModule } from "angular2-notifications";
-
+import { ModalComponent } from "./shared/modal/modal.component";
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +40,7 @@ import { SimpleNotificationsModule } from "angular2-notifications";
     ReactiveFormsModule,
     SimpleNotificationsModule.forRoot()
   ],
+  entryComponents: [ModalComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
