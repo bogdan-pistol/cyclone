@@ -26,7 +26,7 @@ public class CountriesController {
     }
 
     @PostMapping()
-    public String addCountry(@PathVariable String namespace, @RequestBody Country country) {
+    public Country addCountry(@PathVariable String namespace, @RequestBody Country country) {
         return countryService.addCountry(namespace, country);
     }
 

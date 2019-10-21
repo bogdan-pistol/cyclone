@@ -31,7 +31,6 @@ public class PropertiesController {
         return propertiesService.searchProperties(namespace, country, key);
     }
 
-
     @PostMapping
     public void addNewProperty(@RequestBody AddNewPropertyRequest propertyRequest) {
         propertiesService.addProperty(propertyRequest);
@@ -41,7 +40,6 @@ public class PropertiesController {
     public void changeProperty(@RequestBody UpdatePropertyRequest propertyRequest) {
         propertiesService.updateProperty(propertyRequest);
     }
-
 
     @DeleteMapping("/archive/{propertyKey}")
     public void deleteProperty(@PathVariable String propertyKey) {

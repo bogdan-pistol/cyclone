@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.services;
 
+import com.ruby.cyclone.configserver.exceptions.RestException;
 import com.ruby.cyclone.configserver.models.api.request.AddNewPropertyRequest;
 import com.ruby.cyclone.configserver.models.api.request.PropertyLocation;
 import com.ruby.cyclone.configserver.models.api.request.UpdatePropertyRequest;
@@ -10,6 +11,7 @@ import com.ruby.cyclone.configserver.models.business.PropertyId;
 import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepository;
 import com.ruby.cyclone.configserver.repo.mongo.PropertiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -57,7 +59,7 @@ public class PropertiesService {
 
         List<Namespace> namespaces = this.namespaceRepository.findAll();
         if (namespaces == null || namespaces.isEmpty()) {
-            throw new RuntimeException("no namepsaces defined");
+            throw new RestException(HttpStatus.BAD_REQUEST, "No namespaces defined.");
         }
         for (Namespace ns : namespaces) {
             addPropertiesInAllNamespaces(propertyRequest, ns);
@@ -108,7 +110,7 @@ public class PropertiesService {
             property.map(p -> {
                 p.setValue(valuesByLocation.get(location));
                 return propertiesRepository.save(p);
-            }).orElseThrow(() -> new RuntimeException("this property does not exists"));
+            }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "This property does not exists."));
 
         });
     }

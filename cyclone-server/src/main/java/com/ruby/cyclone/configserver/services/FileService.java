@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.services;
 
+import com.ruby.cyclone.configserver.exceptions.RestException;
 import com.ruby.cyclone.configserver.models.business.*;
 import com.ruby.cyclone.configserver.models.constants.FileFormat;
 import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepository;
@@ -9,6 +10,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +39,7 @@ public class FileService {
         return namespaceDao.map(Namespace::getCountries)
                 .flatMap(countries -> countries.stream().filter(c -> c.equals(countryId)).findFirst())
                 .map(Country::getFiles)
-                .orElseThrow(RuntimeException::new)
+                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to get files."))
                 .stream()
                 .map(FileName::getName).collect(Collectors.toList());
 
@@ -48,7 +50,7 @@ public class FileService {
         String originalFilename = file.getOriginalFilename();
 
         Optional<Namespace> optionalNamespace = namespaceRepository.findById(namespace);
-        Namespace namespaceFromDb = optionalNamespace.orElseThrow(RuntimeException::new);
+        Namespace namespaceFromDb = optionalNamespace.orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to get namespace."));
         Set<Country> countries = namespaceFromDb.getCountries();
 
 
@@ -56,7 +58,7 @@ public class FileService {
                 .stream()
                 .filter(c -> c.getId().equals(country))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to find country."));
 
         @UniqueElements Set<FileName> files = country1.getFiles();
         if (files == null) {
@@ -110,10 +112,10 @@ public class FileService {
             if (resource.exists()) {
                 return resource;
             } else {
-                throw new RuntimeException("File not found " + filename);
+                throw new RestException(HttpStatus.BAD_REQUEST, "File not found " + filename);
             }
         } catch (MalformedURLException ex) {
-            throw new RuntimeException("File not found " + filename, ex);
+            throw new RestException(HttpStatus.BAD_REQUEST, "File not found " + filename);
         } finally {
             tempFile.delete();
             tempDirectory.delete();
@@ -147,6 +149,6 @@ public class FileService {
 
                         return Optional.of(file);
                     });
-        }).orElseThrow(() -> new RuntimeException());
+        }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to add file."));
     }
 }
