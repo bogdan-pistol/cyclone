@@ -30,7 +30,6 @@ public class FilesController {
     }
 
     @PostMapping("/files/{file}")
-
     public String addFile(@PathVariable String namespace, @PathVariable String country, @PathVariable String file) {
         return this.fileService.addFile(namespace, country, file);
     }

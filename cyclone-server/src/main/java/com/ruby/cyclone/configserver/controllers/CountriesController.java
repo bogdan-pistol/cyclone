@@ -21,7 +21,7 @@ public class CountriesController {
     }
 
     @GetMapping()
-    public Set<Country> getBusinesses(@PathVariable String namespace) {
+    public Set<Country> getCountries(@PathVariable String namespace) {
         return countryService.getBusinesses(namespace);
     }
 

@@ -39,7 +39,7 @@ public class FileService {
         return namespaceDao.map(Namespace::getCountries)
                 .flatMap(countries -> countries.stream().filter(c -> c.equals(countryId)).findFirst())
                 .map(Country::getFiles)
-                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to get files."))
+                .orElse(Collections.emptySet())
                 .stream()
                 .map(FileName::getName).collect(Collectors.toList());
 
