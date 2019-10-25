@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/namespaces/{namespace}/countries/{country}")
+@RequestMapping("/api/tenants/{tenant}/namespaces/{namespace}/apps/{app}")
 public class FilesController {
 
 
@@ -26,37 +26,41 @@ public class FilesController {
     }
 
     @GetMapping("/files")
-    public List<String> getFiles(@PathVariable String namespace, @PathVariable String country) {
-        return this.fileService.getFiles(namespace, country);
+    public List<String> getFiles(@PathVariable String namespace, @PathVariable String application) {
+        return this.fileService.getFiles(namespace, application);
     }
 
     @PostMapping("/files/{file}")
-    public String addFile(@PathVariable String namespace, @PathVariable String country, @PathVariable String file) {
-        return this.fileService.addFile(namespace, country, file);
+    public String addFile(@PathVariable String namespace, @PathVariable String application, @PathVariable String file) {
+        return this.fileService.addFile(namespace, application, file);
     }
 
     @PostMapping(value = "/files/import")
-    public String importPropertiesFromFile(@PathVariable String namespace,
-                                           @PathVariable String country,
+    public String importPropertiesFromFile(@PathVariable String tenant,
+                                           @PathVariable String namespace,
+                                           @PathVariable String application,
                                            @RequestParam FileFormat fileFormat,
                                            @RequestParam MultipartFile file) throws IOException {
-        return this.fileService.importProperties(namespace, country, fileFormat, file);
+        return this.fileService.importProperties(namespace, application, fileFormat, file);
     }
 
 
     @GetMapping(value = "/files/export/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public @ResponseBody Resource exportFileByName(@PathVariable String namespace,
-                              @PathVariable String country,
+    public @ResponseBody
+    Resource exportFileByName(@PathVariable String tenant,
+                              @PathVariable String namespace,
+                              @PathVariable String application,
                               @PathVariable String filename) throws IOException {
-       return fileService.exportFile(namespace, country, filename);
+        return fileService.exportFile(tenant, namespace, application, filename);
 
     }
 
     @GetMapping("/files/{file}/properties")
-    public List<Property> listProperties(@PathVariable String namespace,
+    public List<Property> listProperties(@PathVariable String tenant,
+                                         @PathVariable String namespace,
                                          @PathVariable String country,
                                          @PathVariable String file) {
-        return fileService.getPropertiesFromFile(namespace, country, file);
+        return fileService.getPropertiesFromFile(tenant, namespace, country, file);
 
     }
 

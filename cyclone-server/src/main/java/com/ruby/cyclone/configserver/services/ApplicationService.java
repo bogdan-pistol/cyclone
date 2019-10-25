@@ -1,7 +1,7 @@
 package com.ruby.cyclone.configserver.services;
 
 import com.ruby.cyclone.configserver.exceptions.RestException;
-import com.ruby.cyclone.configserver.models.business.Country;
+import com.ruby.cyclone.configserver.models.business.Application;
 import com.ruby.cyclone.configserver.models.business.Namespace;
 import com.ruby.cyclone.configserver.repo.mongo.CountryRepository;
 import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepository;
@@ -12,36 +12,36 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class CountryService {
+public class ApplicationService {
 
     private NamespaceRepository namespaceRepository;
     private CountryRepository countryRepository;
 
     @Autowired
-    public CountryService(NamespaceRepository namespaceRepository, CountryRepository countryRepository) {
+    public ApplicationService(NamespaceRepository namespaceRepository, CountryRepository countryRepository) {
         this.namespaceRepository = namespaceRepository;
         this.countryRepository = countryRepository;
     }
 
-    public Set<Country> getBusinesses(String namespace) {
+    public Set<Application> getApplications(String namespace) {
         return namespaceRepository.findById(namespace)
-                .map(Namespace::getCountries)
-                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to get countries."));
+                .map(Namespace::getApplications)
+                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to get applications."));
     }
 
 
     public void archive(String namespace, String country) {
         Optional<Namespace> ns = this.namespaceRepository.findById(namespace);
         ns.map(nsDao -> {
-            Set<Country> countries = nsDao.getCountries();
+            Set<Application> countries = nsDao.getApplications();
             countries.remove(country);
-            nsDao.setCountries(countries);
+            nsDao.setApplications(countries);
             namespaceRepository.save(nsDao);
             return true;
-        }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to archive country."));
+        }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to archive application."));
     }
 
-    public Country addCountry(String namespace, Country requestCountry) {
+    public Application addApp(String namespace, Application requestApplication) {
 
         Optional<Namespace> ns = this.namespaceRepository.findById(namespace);
 
@@ -50,17 +50,17 @@ public class CountryService {
         }
 
         // TODO: check unicity
-        Country country = countryRepository.save(requestCountry);
+        Application application = countryRepository.save(requestApplication);
 
         return ns.map(nsDao -> {
-            Set<Country> countries = nsDao.getCountries();
+            Set<Application> countries = nsDao.getApplications();
             if (countries == null) {
                 countries = new HashSet<>();
             }
-            countries.add(country);
-            nsDao.setCountries(countries);
+            countries.add(application);
+            nsDao.setApplications(countries);
             namespaceRepository.save(nsDao);
-            return country;
-        }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to add country."));
+            return application;
+        }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to add application."));
     }
 }

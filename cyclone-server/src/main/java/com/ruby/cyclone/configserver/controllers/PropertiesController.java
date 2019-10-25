@@ -26,10 +26,11 @@ public class PropertiesController {
     }
 
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<PropertyLocation, List<Property>> searchProperties(@RequestParam(defaultValue = "") String namespace,
-                                                                  @RequestParam(defaultValue = "") String country,
+    public Map<PropertyLocation, List<Property>> searchProperties(@RequestParam(defaultValue = "") String tenant,
+                                                                  @RequestParam(defaultValue = "") String namespace,
+                                                                  @RequestParam(defaultValue = "") String application,
                                                                   @RequestParam(defaultValue = "") String key) {
-        return propertiesService.searchProperties(namespace, country, key);
+        return propertiesService.searchProperties(tenant, namespace, application, key);
     }
 
     @PostMapping

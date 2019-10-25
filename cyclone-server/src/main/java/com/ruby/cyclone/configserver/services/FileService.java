@@ -36,9 +36,9 @@ public class FileService {
     public List<String> getFiles(String namespaceId, String countryId) {
 
         Optional<Namespace> namespaceDao = this.namespaceRepository.findById(namespaceId);
-        return namespaceDao.map(Namespace::getCountries)
+        return namespaceDao.map(Namespace::getApplications)
                 .flatMap(countries -> countries.stream().filter(c -> c.equals(countryId)).findFirst())
-                .map(Country::getFiles)
+                .map(Application::getFiles)
                 .orElse(Collections.emptySet())
                 .stream()
                 .map(FileName::getName).collect(Collectors.toList());
@@ -51,24 +51,24 @@ public class FileService {
 
         Optional<Namespace> optionalNamespace = namespaceRepository.findById(namespace);
         Namespace namespaceFromDb = optionalNamespace.orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to get namespace."));
-        Set<Country> countries = namespaceFromDb.getCountries();
+        Set<Application> countries = namespaceFromDb.getApplications();
 
 
-        Country country1 = countries
+        Application application1 = countries
                 .stream()
                 .filter(c -> c.getId().equals(country))
                 .findFirst()
-                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to find country."));
+                .orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to find application."));
 
-        @UniqueElements Set<FileName> files = country1.getFiles();
+        @UniqueElements Set<FileName> files = application1.getFiles();
         if (files == null) {
             files = new HashSet<>();
         }
         boolean fileExists = files.stream().anyMatch(f -> f.getName().equals(file.getOriginalFilename()));
         if (!fileExists) {
             files.add(new FileName(file.getOriginalFilename()));
-            country1.setFiles(files);
-            namespaceFromDb.setCountries(countries);
+            application1.setFiles(files);
+            namespaceFromDb.setApplications(countries);
             namespaceRepository.save(namespaceFromDb);
         }
 
@@ -79,7 +79,7 @@ public class FileService {
         properties.forEach((k, v) -> {
             PropertyId id = PropertyId.builder().key(k.toString())
                     .namespace(namespace)
-                    .country(country)
+                    .application(country)
                     .file(file.getOriginalFilename())
                     .build();
             Property property = new Property();
@@ -93,17 +93,17 @@ public class FileService {
 
     }
 
-    public List<Property> getPropertiesFromFile(String namespace, String country, String file) {
-        return propertiesRepository.getPropertiesFromFile(namespace, country, file);
+    public List<Property> getPropertiesFromFile(String tenant, String namespace, String country, String file) {
+        return propertiesRepository.getPropertiesFromFile(tenant, namespace, country, file);
     }
 
-    public Resource exportFile(String namespace, String country, String filename) throws IOException {
+    public Resource exportFile(String tenant, String namespace, String country, String filename) throws IOException {
 
         File tempDirectory = new File("./export");
         tempDirectory.mkdir();
         File tempFile = new File("./export/" + filename);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            Properties properties = readPropertiesFromDb(namespace, country, filename);
+            Properties properties = readPropertiesFromDb(tenant, namespace, country, filename);
             properties.store(fos, "");
         }
         try (FileInputStream fis = new FileInputStream(tempFile)) {
@@ -122,8 +122,8 @@ public class FileService {
         }
     }
 
-    private Properties readPropertiesFromDb(String namespace, String country, String filename) {
-        List<Property> appProperties = propertiesRepository.getPropertiesFromFile(namespace, country, filename);
+    private Properties readPropertiesFromDb(String tenant, String namespace, String country, String filename) {
+        List<Property> appProperties = propertiesRepository.getPropertiesFromFile(tenant, namespace, country, filename);
 
         Properties properties = new Properties();
         appProperties.forEach(p -> {
@@ -135,7 +135,7 @@ public class FileService {
     public String addFile(String namespaceId, String countryId, String file) {
         Optional<Namespace> namespace = this.namespaceRepository.findById(namespaceId);
         return namespace.flatMap(ns -> {
-            Set<Country> countries = ns.getCountries();
+            Set<Application> countries = ns.getApplications();
             return countries.stream().filter(c -> c.getId().equals(countryId)).findFirst()
                     .flatMap(c -> {
                         Set<FileName> files = c.getFiles();
@@ -144,7 +144,7 @@ public class FileService {
                         }
                         files.add(new FileName(file));
                         c.setFiles(files);
-                        ns.setCountries(countries);
+                        ns.setApplications(countries);
                         namespaceRepository.save(ns);
                         return Optional.of(file);
                     });

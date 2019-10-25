@@ -15,7 +15,7 @@
   </mat-step>
   <mat-step [stepControl]="listCountries">
     <form [formGroup]="listCountries" #listCountriesForm>
-      <ng-template matStepLabel>Select country</ng-template>
+      <ng-template matStepLabel>Select application</ng-template>
       <input type="hidden" formControlName="control" />
       <app-list-countries
         (validateFormEmitter)="validateForm($event, listCountries)"

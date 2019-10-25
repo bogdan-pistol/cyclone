@@ -1,24 +1,14 @@
 package com.ruby.cyclone.configserver.controllers;
 
-import com.ruby.cyclone.configserver.models.business.Country;
-import com.ruby.cyclone.configserver.models.business.Namespace;
-import com.ruby.cyclone.configserver.models.business.Property;
 import com.ruby.cyclone.configserver.services.PropertiesService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
-
-import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,7 +44,7 @@ public class PropertiesControllerTest {
 //        mockMvc.perform(MockMvcRequestBuilders.get("/api/properties/search")
 //                .contentType(MediaType.APPLICATION_JSON_VALUE)
 //                .param("namespace", NAMESPACE)
-//                .param("country", COUNTRY)
+//                .param("application", COUNTRY)
 //                .param("key", KEY_WORD)
 //        ).andExpect(MockMvcResultMatchers.status().isOk())
 //                .andExpect(jsonPath("$", hasSize(namespaces.size())))

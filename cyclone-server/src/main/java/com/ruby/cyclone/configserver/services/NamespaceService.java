@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +34,7 @@ public class NamespaceService {
         if (namespaceRepository.existsById(namespace.getName())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "Namespace already exists.");
         }
-        namespace.setCountries(Collections.emptySet());
+        namespace.setApplications(Collections.emptySet());
         return namespaceRepository.save(namespace);
     }
 

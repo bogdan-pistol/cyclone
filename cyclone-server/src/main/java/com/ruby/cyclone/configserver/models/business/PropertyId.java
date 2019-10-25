@@ -14,7 +14,7 @@ public class PropertyId {
     @Indexed
     private String namespace;
     @Indexed
-    private String country;
+    private String application;
     @Indexed
     private String file;
     @Indexed

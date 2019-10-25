@@ -4,7 +4,7 @@ import com.ruby.cyclone.configserver.exceptions.RestException;
 import com.ruby.cyclone.configserver.models.api.request.AddNewPropertyRequest;
 import com.ruby.cyclone.configserver.models.api.request.PropertyLocation;
 import com.ruby.cyclone.configserver.models.api.request.UpdatePropertyRequest;
-import com.ruby.cyclone.configserver.models.business.Country;
+import com.ruby.cyclone.configserver.models.business.Application;
 import com.ruby.cyclone.configserver.models.business.Namespace;
 import com.ruby.cyclone.configserver.models.business.Property;
 import com.ruby.cyclone.configserver.models.business.PropertyId;
@@ -30,8 +30,8 @@ public class PropertiesService {
     }
 
 
-    public Map<PropertyLocation, List<Property>> searchProperties(String namespace, String business, String keyWord) {
-        List<Property> properties = propertiesRepository.searchByKeyAndLocationRegexes(namespace, business, "", keyWord);
+    public Map<PropertyLocation, List<Property>> searchProperties(String tenant, String namespace, String business, String keyWord) {
+        List<Property> properties = propertiesRepository.searchByKeyAndLocationRegexes(tenant, namespace, business, "", keyWord);
         return groupProperties(properties);
     }
 
@@ -42,7 +42,7 @@ public class PropertiesService {
         Map<PropertyLocation, List<Property>> propertiesMap = new HashMap<>();
         for (Property property : properties) {
             String ns = property.getId().getNamespace();
-            String country = property.getId().getCountry();
+            String country = property.getId().getApplication();
             PropertyLocation location = PropertyLocation.builder().namespace(ns).country(country).build();
             if (propertiesMap.containsKey(location)) {
                 List<Property> propertyList = propertiesMap.get(location);
@@ -69,7 +69,7 @@ public class PropertiesService {
     }
 
     private void addPropertiesInAllNamespaces(@NotNull AddNewPropertyRequest propertyRequest, @NotNull Namespace ns) {
-        Set<Country> countries = ns.getCountries();
+        Set<Application> countries = ns.getApplications();
         if (countries == null || countries.isEmpty()) {
             return;
         }
@@ -81,10 +81,10 @@ public class PropertiesService {
         });
     }
 
-    private void addPropertyForOneCountry(AddNewPropertyRequest propertyRequest, Namespace ns, Country country) {
+    private void addPropertyForOneCountry(AddNewPropertyRequest propertyRequest, Namespace ns, Application application) {
         PropertyId pId = PropertyId.builder()
                 .namespace(ns.getName())
-                .country(country.getId())
+                .application(application.getId())
                 .file(propertyRequest.getFile())
                 .key(propertyRequest.getKey())
                 .build();
@@ -101,7 +101,7 @@ public class PropertiesService {
         String propertyKey = propertyRequest.getKey();
         Map<PropertyLocation, Object> valuesByLocation = propertyRequest.getValuesByLocation();
         valuesByLocation.keySet().forEach(location -> {
-            PropertyId propertyId = PropertyId.builder().country(location.getCountry())
+            PropertyId propertyId = PropertyId.builder().application(location.getCountry())
                     .namespace(location.getNamespace())
                     .key(propertyKey)
                     .build();
