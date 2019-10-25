@@ -146,7 +146,6 @@ public class FileService {
                         c.setFiles(files);
                         ns.setCountries(countries);
                         namespaceRepository.save(ns);
-
                         return Optional.of(file);
                     });
         }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "Error trying to add file."));

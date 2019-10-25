@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/tenants")
 public class TenantsController {

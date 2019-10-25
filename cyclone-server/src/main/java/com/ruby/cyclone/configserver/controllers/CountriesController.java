@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/namespaces/{namespace}/countries")
 public class CountriesController {
