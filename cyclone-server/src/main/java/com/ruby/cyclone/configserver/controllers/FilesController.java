@@ -51,8 +51,7 @@ public class FilesController {
 
 
     @GetMapping(value = "/files/export/{filename}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public @ResponseBody
-    Resource exportFileByName(@PathVariable String tenant,
+    public @ResponseBody Resource exportFileByName(@PathVariable String tenant,
                               @PathVariable String namespace,
                               @PathVariable String app,
                               @PathVariable String filename) throws IOException {
