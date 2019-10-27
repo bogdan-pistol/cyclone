@@ -8,30 +8,31 @@ import com.ruby.cyclone.configserver.models.business.Application;
 import com.ruby.cyclone.configserver.models.business.Namespace;
 import com.ruby.cyclone.configserver.models.business.Property;
 import com.ruby.cyclone.configserver.models.business.PropertyId;
-import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepository;
-import com.ruby.cyclone.configserver.repo.mongo.PropertiesRepository;
+import com.ruby.cyclone.configserver.repo.mongo.ApplicationRepo;
+import com.ruby.cyclone.configserver.repo.mongo.PropertiesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PropertiesService {
 
-    private PropertiesRepository propertiesRepository;
-    private NamespaceRepository namespaceRepository;
+    private PropertiesRepo propertiesRepo;
+    private ApplicationRepo applicationRepo;
 
     @Autowired
-    public PropertiesService(PropertiesRepository propertiesRepository, NamespaceRepository namespaceRepository) {
-        this.propertiesRepository = propertiesRepository;
-        this.namespaceRepository = namespaceRepository;
+    public PropertiesService(PropertiesRepo propertiesRepo, ApplicationRepo applicationRepo) {
+        this.propertiesRepo = propertiesRepo;
+        this.applicationRepo = applicationRepo;
     }
 
 
     public Map<PropertyLocation, List<Property>> searchProperties(String tenant, String namespace, String business, String keyWord) {
-        List<Property> properties = propertiesRepository.searchByKeyAndLocationRegexes(tenant, namespace, business, "", keyWord);
+        List<Property> properties = propertiesRepo.searchByKeyAndLocationRegexes(tenant, namespace, business, "", keyWord);
         return groupProperties(properties);
     }
 
@@ -57,44 +58,34 @@ public class PropertiesService {
 
     public void addProperty(AddNewPropertyRequest propertyRequest) {
 
-        List<Namespace> namespaces = this.namespaceRepository.findAll();
-        if (namespaces == null || namespaces.isEmpty()) {
-            throw new RestException(HttpStatus.BAD_REQUEST, "No namespaces defined.");
-        }
-        for (Namespace ns : namespaces) {
-            addPropertiesInAllNamespaces(propertyRequest, ns);
-
+        List<Application> applications = this.applicationRepo.findAll();
+        if (applications == null || applications.isEmpty()) {
+            throw new RestException(HttpStatus.BAD_REQUEST, "No applications defined.");
         }
 
+        List<Property> properties = buildProperties(propertyRequest, applications);
+
+        propertiesRepo.saveAll(properties);
     }
 
-    private void addPropertiesInAllNamespaces(@NotNull AddNewPropertyRequest propertyRequest, @NotNull Namespace ns) {
-        Set<Application> countries = ns.getApplications();
-        if (countries == null || countries.isEmpty()) {
-            return;
-        }
-        countries.forEach(country -> {
-            if (country == null || country.getId() == null) {
-                return;
-            }
-            addPropertyForOneCountry(propertyRequest, ns, country);
-        });
-    }
-
-    private void addPropertyForOneCountry(AddNewPropertyRequest propertyRequest, Namespace ns, Application application) {
-        PropertyId pId = PropertyId.builder()
-                .namespace(ns.getName())
-                .application(application.getId())
-                .file(propertyRequest.getFile())
-                .key(propertyRequest.getKey())
-                .build();
-        Property property = new Property();
-        property.setId(pId);
-        property.setValue(propertyRequest.getDefaultValue());
-        if (propertiesRepository.existsById(pId)) {
-            return;
-        }
-        propertiesRepository.save(property);
+    private List<Property> buildProperties(@NotNull AddNewPropertyRequest propertyRequest, @NotNull List<Application> apps) {
+        return apps.stream()
+                .map(Application::getId)
+                .map(id -> PropertyId.builder()
+                        .tenant(id.getNamespace().getTenant())
+                        .namespace(id.getNamespace().getNamespace())
+                        .application(id.getApplication())
+                        .file(propertyRequest.getFile())
+                        .key(propertyRequest.getKey())
+                        .build()
+                ).map(pId -> {
+                    Property property = new Property();
+                    property.setId(pId);
+                    property.setDescription(propertyRequest.getDescription());
+                    property.setValue(propertyRequest.getDefaultValue());
+                    return property;
+                })
+                .collect(Collectors.toList());
     }
 
     public void updateProperty(UpdatePropertyRequest propertyRequest) {
@@ -106,12 +97,13 @@ public class PropertiesService {
                     .key(propertyKey)
                     .build();
 
-            Optional<Property> property = propertiesRepository.findById(propertyId);
+            Optional<Property> property = propertiesRepo.findById(propertyId);
             property.map(p -> {
                 p.setValue(valuesByLocation.get(location));
-                return propertiesRepository.save(p);
+                return propertiesRepo.save(p);
             }).orElseThrow(() -> new RestException(HttpStatus.BAD_REQUEST, "This property does not exists."));
 
         });
     }
+
 }

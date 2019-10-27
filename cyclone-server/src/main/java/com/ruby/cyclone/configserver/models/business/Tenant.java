@@ -17,8 +17,8 @@ import java.util.List;
 @Document(collection = "tenants")
 @Data
 @Builder
-@EqualsAndHashCode(exclude = {"namespaces"})
-@ToString(exclude = {"namespaces"})
+@EqualsAndHashCode
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tenant {
@@ -26,15 +26,7 @@ public class Tenant {
     @Id
     private String id;
 
-    @NotBlank
-    @Indexed(unique = true)
-    private String name;
-
     private String description;
-
-    @JsonIgnore
-    @DBRef
-    private List<Namespace> namespaces = new ArrayList<>();
 
     @CreatedDate
     private Instant createdAt;

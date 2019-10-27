@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Document(collection = "namespaces")
-@CompoundIndex(def = "{'tenant':1, '_id':1}", unique = true, name = "tenant_name_idx")
 @Data
 @Builder
 @AllArgsConstructor
@@ -25,15 +24,9 @@ import java.util.Set;
 public class Namespace {
 
     @Id
-    private String name;
-
-    @DBRef
-    private Tenant tenant;
+    private NamespaceId id;
 
     private String description;
-
-    @UniqueElements
-    private Set<Application> applications = new HashSet<>();
 
     @CreatedDate
     private Instant createdAt;

@@ -15,9 +15,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Document(collection = "files")
-public class FileName {
-    @Id
+public class PropsFile {
+
     String name;
 
     @CreatedDate
@@ -26,7 +25,7 @@ public class FileName {
     @LastModifiedDate
     private Instant modifiedAt;
 
-    public FileName(String name) {
+    public PropsFile(String name) {
         this.name = name;
     }
 }

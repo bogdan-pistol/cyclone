@@ -2,7 +2,9 @@ package com.ruby.cyclone.configserver.services;
 
 import com.ruby.cyclone.configserver.exceptions.RestException;
 import com.ruby.cyclone.configserver.models.business.Namespace;
-import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepository;
+import com.ruby.cyclone.configserver.models.business.NamespaceId;
+import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepo;
+import com.ruby.cyclone.configserver.repo.mongo.TenantRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -10,40 +12,49 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class NamespaceService {
 
-    private NamespaceRepository namespaceRepository;
+    private NamespaceRepo namespaceRepo;
+
+    private TenantRepo tenantRepo;
 
     @Autowired
-    public NamespaceService(NamespaceRepository namespaceRepository) {
-        this.namespaceRepository = namespaceRepository;
+    public NamespaceService(NamespaceRepo namespaceRepo, TenantRepo tenantRepo) {
+        this.tenantRepo = tenantRepo;
+        this.namespaceRepo = namespaceRepo;
     }
 
-    public List<String> getNamespaces() {
-       return this.namespaceRepository.findAll()
+    public List<NamespaceId> getNamespacesByTenant(String tenant) {
+        return this.namespaceRepo.findAllByTenant(tenant)
                 .stream()
-                .map(Namespace::getName)
+                .map(Namespace::getId)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     public Namespace addNamespace(Namespace namespace) {
-        if (namespaceRepository.existsById(namespace.getName())) {
+        if (!tenantRepo.existsById(namespace.getId().getTenant())) {
+            throw new RestException(HttpStatus.NOT_FOUND,
+                    "This tenant doesn't exists, " + namespace.getId().getTenant());
+        }
+        if (namespaceRepo.existsById(namespace.getId())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "Namespace already exists.");
         }
-        namespace.setApplications(Collections.emptySet());
-        return namespaceRepository.save(namespace);
+        return namespaceRepo.save(namespace);
     }
 
     @Transactional
-    public void archive(String namespace) {
+    public void archive(NamespaceId id) {
         //todo make backup collection
-        namespaceRepository.deleteById(namespace);
+        namespaceRepo.deleteById(id);
     }
 
 
-
+    public Optional<Namespace> findById(NamespaceId id) {
+        return namespaceRepo.findById(id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.models.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Document(collection = "applications")
@@ -25,8 +24,8 @@ import java.util.Set;
 public class Application {
 
     @Id
-    private String id;
-
+    @JsonIgnore
+    private AppId id;
 
     private String application;
 
@@ -34,7 +33,7 @@ public class Application {
 
     @Field
     @UniqueElements
-    private Set<FileName> files = new HashSet<>();
+    private Set<PropsFile> files = new HashSet<>();
 
     @CreatedDate
     private Instant createdAt;

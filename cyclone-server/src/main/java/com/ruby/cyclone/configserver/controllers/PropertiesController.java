@@ -14,7 +14,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/properties")
+@RequestMapping("/api/v1/properties")
 public class PropertiesController {
 
 

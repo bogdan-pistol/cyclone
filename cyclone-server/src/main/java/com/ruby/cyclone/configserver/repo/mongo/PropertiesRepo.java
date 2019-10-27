@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface PropertiesRepository extends MongoRepository<Property, PropertyId> {
+public interface PropertiesRepo extends MongoRepository<Property, PropertyId> {
 
 
     @Query("{" +
