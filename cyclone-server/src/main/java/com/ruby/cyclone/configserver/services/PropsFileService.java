@@ -45,12 +45,7 @@ public class PropsFileService {
     public String importProperties(String tenant, String namespace, String app, FileFormat fileFormat, MultipartFile file)
             throws IOException {
 
-        AppId appId = AppId.builder().application(app)
-                .namespace(NamespaceId.builder().tenant(tenant).namespace(namespace).build())
-                .build();
-
-        Application application = applicationRepo.findById(appId)
-                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Application not found " + appId));
+        Application application = getApplication(tenant, namespace, app);
 
         Set<PropsFile> files = application.getFiles();
         if (files == null) {
@@ -127,11 +122,7 @@ public class PropsFileService {
     }
 
     public String addFile(String tenant, String namespace, String app, PropsFile file) {
-        AppId appId = AppId.builder().application(app)
-                .namespace(NamespaceId.builder().tenant(tenant).namespace(namespace).build())
-                .build();
-        Application application = applicationRepo.findById(appId)
-                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Application not found " + appId));
+        Application application = getApplication(tenant, namespace, app);
 
         @UniqueElements Set<PropsFile> files = application.getFiles();
         if (files == null) {
@@ -141,5 +132,13 @@ public class PropsFileService {
         application.setFiles(files);
         applicationRepo.save(application);
         return file.getName();
+    }
+
+    private Application getApplication(String tenant, String namespace, String app) {
+        AppId appId = AppId.builder().application(app)
+                .namespace(NamespaceId.builder().tenant(tenant).namespace(namespace).build())
+                .build();
+        return applicationRepo.findById(appId)
+                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Application not found " + appId));
     }
 }

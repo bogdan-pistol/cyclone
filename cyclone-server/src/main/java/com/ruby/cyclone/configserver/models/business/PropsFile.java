@@ -18,7 +18,9 @@ import java.time.Instant;
 @EqualsAndHashCode
 public class PropsFile {
 
-    String name;
+    private String name;
+
+    private String description;
 
     @CreatedDate
     @JsonIgnore
