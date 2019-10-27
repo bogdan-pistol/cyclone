@@ -24,7 +24,7 @@ public class NamespacesController {
     }
 
     @GetMapping
-    public List<NamespaceId> getNamespaces(@PathVariable String tenant) {
+    public List<Namespace> getNamespaces(@PathVariable String tenant) {
         return namespaceService.getNamespacesByTenant(tenant);
     }
 

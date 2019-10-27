@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 public class AppId {
 
     private String application;
+
     @JsonIgnore
     private NamespaceId namespace;
 

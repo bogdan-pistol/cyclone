@@ -24,10 +24,7 @@ import java.util.Set;
 public class Application {
 
     @Id
-    @JsonIgnore
     private AppId id;
-
-    private String application;
 
     private String description;
 

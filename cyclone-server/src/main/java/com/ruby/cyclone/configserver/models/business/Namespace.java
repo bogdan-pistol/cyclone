@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.models.business;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,9 +29,11 @@ public class Namespace {
 
     private String description;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @CreatedDate
     private Instant createdAt;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @LastModifiedDate
     private Instant modifiedAt;
 }

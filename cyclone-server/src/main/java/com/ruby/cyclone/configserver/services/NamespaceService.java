@@ -28,10 +28,9 @@ public class NamespaceService {
         this.namespaceRepo = namespaceRepo;
     }
 
-    public List<NamespaceId> getNamespacesByTenant(String tenant) {
+    public List<Namespace> getNamespacesByTenant(String tenant) {
         return this.namespaceRepo.findAllByTenant(tenant)
                 .stream()
-                .map(Namespace::getId)
                 .collect(Collectors.toList());
     }
 
