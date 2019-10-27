@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.models.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,8 +21,10 @@ public class PropsFile {
     String name;
 
     @CreatedDate
+    @JsonIgnore
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant modifiedAt;
 

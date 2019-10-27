@@ -29,11 +29,11 @@ public class Tenant {
 
     private String description;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     @LastModifiedDate
     private Instant modifiedAt;
 }

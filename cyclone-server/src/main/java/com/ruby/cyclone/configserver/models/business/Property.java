@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.models.business;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,11 @@ public class Property<T> {
 
     private String description;
 
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant modifiedAt;
 

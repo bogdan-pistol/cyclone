@@ -32,9 +32,11 @@ public class Application {
     @UniqueElements
     private Set<PropsFile> files = new HashSet<>();
 
+    @JsonIgnore
     @CreatedDate
     private Instant createdAt;
 
+    @JsonIgnore
     @LastModifiedDate
     private Instant modifiedAt;
 
