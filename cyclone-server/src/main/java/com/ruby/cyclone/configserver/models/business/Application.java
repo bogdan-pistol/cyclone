@@ -28,6 +28,7 @@ public class Application {
 
     private String description;
 
+    @JsonIgnore
     @Field
     @UniqueElements
     private Set<PropsFile> files = new HashSet<>();

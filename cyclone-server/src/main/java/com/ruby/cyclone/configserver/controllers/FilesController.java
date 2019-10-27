@@ -28,25 +28,25 @@ public class FilesController {
     }
 
     @GetMapping("/files")
-    public Set<PropsFile> getFiles(@PathVariable String tenant, @PathVariable String namespace, @PathVariable String application) {
-        return this.propsFileService.getFiles(tenant, namespace, application);
+    public Set<PropsFile> getFiles(@PathVariable String tenant, @PathVariable String namespace, @PathVariable String app) {
+        return this.propsFileService.getFiles(tenant, namespace, app);
     }
 
     @PostMapping("/files")
     public String addFile(@PathVariable String tenant,
                           @PathVariable String namespace,
-                          @PathVariable String application,
+                          @PathVariable String app,
                           @RequestBody PropsFile propsFile) {
-        return this.propsFileService.addFile(tenant, namespace, application, propsFile);
+        return this.propsFileService.addFile(tenant, namespace, app, propsFile);
     }
 
     @PostMapping(value = "/files/import")
     public String importPropertiesFromFile(@PathVariable String tenant,
                                            @PathVariable String namespace,
-                                           @PathVariable String application,
+                                           @PathVariable String app,
                                            @RequestParam FileFormat fileFormat,
                                            @RequestParam MultipartFile file) throws IOException {
-        return this.propsFileService.importProperties(tenant, namespace, application, fileFormat, file);
+        return this.propsFileService.importProperties(tenant, namespace, app, fileFormat, file);
     }
 
 
@@ -54,18 +54,18 @@ public class FilesController {
     public @ResponseBody
     Resource exportFileByName(@PathVariable String tenant,
                               @PathVariable String namespace,
-                              @PathVariable String application,
+                              @PathVariable String app,
                               @PathVariable String filename) throws IOException {
-        return propsFileService.exportFile(tenant, namespace, application, filename);
+        return propsFileService.exportFile(tenant, namespace, app, filename);
 
     }
 
     @GetMapping("/files/{file}/properties")
     public List<Property> listProperties(@PathVariable String tenant,
                                          @PathVariable String namespace,
-                                         @PathVariable String country,
+                                         @PathVariable String app,
                                          @PathVariable String file) {
-        return propsFileService.getPropertiesFromFile(tenant, namespace, country, file);
+        return propsFileService.getPropertiesFromFile(tenant, namespace, app, file);
 
     }
 
