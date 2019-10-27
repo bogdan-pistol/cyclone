@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,6 +63,7 @@ public class PropsFileService {
 
         InputStream is = file.getInputStream();
         Properties properties = new Properties();
+
         properties.load(is);
         List<Property> appProperties = new ArrayList<>();
         properties.forEach((k, v) -> {
@@ -77,8 +79,31 @@ public class PropsFileService {
             appProperties.add(property);
         });
         propertiesRepo.saveAll(appProperties);
+        updateOtherAppsWithEmptyValue(application, appProperties);
         return originalFilename;
 
+
+    }
+
+    @Async
+    public void updateOtherAppsWithEmptyValue(Application application, List<Property> appProperties) {
+        List<Application> all = applicationRepo.findAll();
+        all.stream()
+                .filter(a -> a.getId() != application.getId())
+                .forEach(a -> {
+                    appProperties.forEach(property -> {
+                        PropertyId id = property.getId();
+                        id.setApplication(application.getId().getApplication());
+                        id.setNamespace(application.getId().getNamespace().getNamespace());
+                        id.setTenant(application.getId().getNamespace().getTenant());
+
+                        if (!propertiesRepo.existsById(id)) {
+                            property.setId(id);
+                            property.setValue("");
+                            propertiesRepo.save(property);
+                        }
+                    });
+                });
 
     }
 
