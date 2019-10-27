@@ -93,9 +93,9 @@ public class PropsFileService {
                 .forEach(a -> {
                     appProperties.forEach(property -> {
                         PropertyId id = property.getId();
-                        id.setApplication(application.getId().getApplication());
-                        id.setNamespace(application.getId().getNamespace().getNamespace());
-                        id.setTenant(application.getId().getNamespace().getTenant());
+                        id.setApplication(a.getId().getApplication());
+                        id.setNamespace(a.getId().getNamespace().getNamespace());
+                        id.setTenant(a.getId().getNamespace().getTenant());
 
                         if (!propertiesRepo.existsById(id)) {
                             property.setId(id);
