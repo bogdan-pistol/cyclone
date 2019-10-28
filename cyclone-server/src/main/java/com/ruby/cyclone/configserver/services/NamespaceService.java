@@ -35,11 +35,12 @@ public class NamespaceService {
     }
 
     @Transactional
-    public Namespace addNamespace(Namespace namespace) {
-        if (!tenantRepo.existsById(namespace.getId().getTenant())) {
+    public Namespace addNamespace(String tenant, Namespace namespace) {
+        if (!tenantRepo.existsById(tenant)) {
             throw new RestException(HttpStatus.NOT_FOUND,
-                    "This tenant doesn't exists, " + namespace.getId().getTenant());
+                    "This tenant doesn't exists, " + tenant);
         }
+        namespace.getId().setTenant(tenant);
         if (namespaceRepo.existsById(namespace.getId())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "Namespace already exists.");
         }

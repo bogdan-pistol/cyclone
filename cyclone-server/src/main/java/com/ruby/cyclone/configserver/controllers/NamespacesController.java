@@ -35,7 +35,7 @@ public class NamespacesController {
 
     @PostMapping
     public Namespace createNamespace(@PathVariable String tenant, @RequestBody Namespace namespace) {
-        return namespaceService.addNamespace(namespace);
+        return namespaceService.addNamespace(tenant, namespace);
     }
 
     @DeleteMapping("/{namespace}/archive")
