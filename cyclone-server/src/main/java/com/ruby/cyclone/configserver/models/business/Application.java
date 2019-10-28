@@ -1,10 +1,7 @@
 package com.ruby.cyclone.configserver.models.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -19,6 +16,7 @@ import java.util.Set;
 @Document(collection = "applications")
 @Data
 @Builder
+@Getter @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
 public class Application {

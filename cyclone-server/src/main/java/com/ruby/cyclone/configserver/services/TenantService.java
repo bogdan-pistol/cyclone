@@ -1,5 +1,6 @@
 package com.ruby.cyclone.configserver.services;
 
+import com.ruby.cyclone.configserver.models.business.AppId;
 import com.ruby.cyclone.configserver.models.business.Application;
 import com.ruby.cyclone.configserver.models.business.Namespace;
 import com.ruby.cyclone.configserver.models.business.Tenant;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,11 +22,14 @@ public class TenantService {
 
     private TenantRepo tenantRepo;
 
+    private NamespaceRepo namespaceRepo;
+
     private ApplicationRepo applicationRepo;
 
     @Autowired
-    public TenantService(TenantRepo tenantRepo, ApplicationRepo applicationRepo) {
+    public TenantService(TenantRepo tenantRepo, ApplicationRepo applicationRepo, NamespaceRepo namespaceRepo) {
         this.tenantRepo = tenantRepo;
+        this.namespaceRepo = namespaceRepo;
         this.applicationRepo = applicationRepo;
     }
 
@@ -50,10 +55,10 @@ public class TenantService {
         this.tenantRepo.deleteById(tenantId);
     }
 
-//    public Map<String, Application> getApplicationsGroupedByNs(String tenant) {
-//        List<Namespace> namespaces = namespaceRepo.findAllByTenant(tenant);
-//        namespaces.stream()
-//                .map(n -> applicationRepo.findAllByNamespace(tenant, n.getId().getNamespace()))
-//                .
-//    }
+    public Map<String, Set<Application>> getApplicationsGroupedByNs(String tenant) {
+        List<Namespace> namespaces = namespaceRepo.findAllByTenant(tenant);
+        return namespaces.stream()
+                .flatMap(n -> applicationRepo.findAllByNamespace(tenant, n.getId().getNamespace()).stream())
+                .collect(Collectors.groupingBy(a -> a.getId().getNamespace().getNamespace(), Collectors.toSet()));
+    }
 }
