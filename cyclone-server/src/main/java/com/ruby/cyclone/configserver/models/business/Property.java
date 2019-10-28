@@ -19,11 +19,11 @@ public class Property<T> {
     @Id
     private PropertyId id;
 
-    private String name;
+    private String name = "";
 
     private T value;
 
-    private String description;
+    private String description = "";
 
     @JsonIgnore
     @CreatedDate

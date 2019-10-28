@@ -1,7 +1,7 @@
 package com.ruby.cyclone.configserver.controllers;
 
 import com.ruby.cyclone.configserver.models.business.Tenant;
-import com.ruby.cyclone.configserver.repo.mongo.TenantRepo;
+import com.ruby.cyclone.configserver.services.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,39 +15,44 @@ import java.util.Optional;
 @RequestMapping("api/v1/tenants")
 public class TenantsController {
 
-    private final TenantRepo tenantRepo;;
+    private final TenantService tenantService;
 
     @Autowired
-    public TenantsController(TenantRepo tenantRepo) {
-        this.tenantRepo = tenantRepo;
+    public TenantsController(TenantService tenantService) {
+        this.tenantService = tenantService;
     }
 
     @GetMapping
     public List<Tenant> getTenants() {
-        return tenantRepo.findAll();
+        return tenantService.findAll();
     }
 
     @GetMapping("/{tenantId}")
     public Optional<Tenant> getTenant(@PathVariable("tenantId") String tenantId) {
-        return tenantRepo.findById(tenantId);
+        return tenantService.findById(tenantId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Tenant createTenant(@Valid @RequestBody Tenant tenant) {
-        return tenantRepo.save(tenant);
+    public Tenant createTenant(@RequestBody Tenant tenant) {
+        return tenantService.save(tenant);
     }
 
     @PutMapping("/{tenantId}")
     public Tenant updateTenant(@PathVariable("tenantId") String tenantId, @Valid @RequestBody Tenant tenant) {
         tenant.setId(tenantId);
-        return tenantRepo.save(tenant);
+        return tenantService.save(tenant);
     }
 
     @DeleteMapping("/{tenantId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeTenant(@PathVariable("tenantId") String tenantId) {
-        tenantRepo.deleteById(tenantId);
+        tenantService.deleteById(tenantId);
     }
+
+//    @GetMapping
+//    public Map<String, Application> getApplicationsGroupedByNs(@PathVariable String tenant) {
+//        return this.tenantService.getApplicationsGroupedByNs(tenant);
+//    }
 
 }

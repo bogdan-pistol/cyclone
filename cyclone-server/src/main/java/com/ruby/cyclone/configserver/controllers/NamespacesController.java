@@ -34,8 +34,7 @@ public class NamespacesController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Namespace createNamespace(@Valid @RequestBody Namespace namespace) {
+    public Namespace createNamespace(@PathVariable String tenant, @RequestBody Namespace namespace) {
         return namespaceService.addNamespace(namespace);
     }
 
