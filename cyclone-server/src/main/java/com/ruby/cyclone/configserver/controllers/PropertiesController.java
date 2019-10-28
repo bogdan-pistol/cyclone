@@ -45,6 +45,6 @@ public class PropertiesController {
 
     @DeleteMapping("/archive/{propertyKey}")
     public void deleteProperty(@PathVariable String propertyKey) {
-
+        propertiesService.deleteProperty(propertyKey);
     }
 }

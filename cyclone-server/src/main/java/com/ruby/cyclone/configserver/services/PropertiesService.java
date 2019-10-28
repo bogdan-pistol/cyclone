@@ -5,7 +5,6 @@ import com.ruby.cyclone.configserver.models.api.request.AddNewPropertyRequest;
 import com.ruby.cyclone.configserver.models.api.request.PropertyLocation;
 import com.ruby.cyclone.configserver.models.api.request.UpdatePropertyRequest;
 import com.ruby.cyclone.configserver.models.business.Application;
-import com.ruby.cyclone.configserver.models.business.Namespace;
 import com.ruby.cyclone.configserver.models.business.Property;
 import com.ruby.cyclone.configserver.models.business.PropertyId;
 import com.ruby.cyclone.configserver.repo.mongo.ApplicationRepo;
@@ -106,4 +105,7 @@ public class PropertiesService {
         });
     }
 
+    public void deleteProperty(String propertyKey) {
+        this.propertiesRepo.deleteBy(propertyKey);
+    }
 }
