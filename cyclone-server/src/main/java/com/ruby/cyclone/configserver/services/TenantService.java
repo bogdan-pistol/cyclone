@@ -8,6 +8,7 @@ import com.ruby.cyclone.configserver.repo.mongo.NamespaceRepo;
 import com.ruby.cyclone.configserver.repo.mongo.TenantRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -39,10 +40,12 @@ public class TenantService {
         return tenantRepo.findById(tenantId);
     }
 
+    @Transactional
     public Tenant save(Tenant tenant) {
         return this.tenantRepo.save(tenant);
     }
 
+    @Transactional
     public void deleteById(String tenantId) {
         this.tenantRepo.deleteById(tenantId);
     }

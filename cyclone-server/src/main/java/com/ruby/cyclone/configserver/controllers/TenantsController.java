@@ -33,7 +33,6 @@ public class TenantsController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public Tenant createTenant(@RequestBody Tenant tenant) {
         return tenantService.save(tenant);
     }
