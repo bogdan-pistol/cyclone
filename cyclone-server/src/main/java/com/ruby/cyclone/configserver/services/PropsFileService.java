@@ -36,10 +36,8 @@ public class PropsFileService {
         AppId appId = AppId.builder().application(app)
                 .namespace(NamespaceId.builder().tenant(tenant).namespace(namespaceId).build())
                 .build();
-        @UniqueElements Set<PropsFile> propsFiles = applicationRepo.findById(appId).map(Application::getFiles)
-                .orElseThrow(() -> new RestException(HttpStatus.NOT_FOUND, "Application not found " + appId));
-        return propsFiles == null ? Collections.emptySet() : propsFiles;
-
+        return applicationRepo.findById(appId).map(Application::getFiles)
+                .orElse(Collections.emptySet());
     }
 
     @Transactional
