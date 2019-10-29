@@ -29,8 +29,9 @@ public class PropertiesController {
     public Map<PropertyLocation, List<Property>> searchProperties(@RequestParam(defaultValue = "") String tenant,
                                                                   @RequestParam(defaultValue = "") String namespace,
                                                                   @RequestParam(defaultValue = "") String application,
+                                                                  @RequestParam(defaultValue = "") String file,
                                                                   @RequestParam(defaultValue = "") String key) {
-        return propertiesService.searchProperties(tenant, namespace, application, key);
+        return propertiesService.searchProperties(tenant, namespace, application, file, key);
     }
 
     @PostMapping

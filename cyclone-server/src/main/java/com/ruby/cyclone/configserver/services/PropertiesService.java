@@ -30,8 +30,8 @@ public class PropertiesService {
     }
 
 
-    public Map<PropertyLocation, List<Property>> searchProperties(String tenant, String namespace, String business, String keyWord) {
-        List<Property> properties = propertiesRepo.searchByKeyAndLocationRegexes(tenant, namespace, business, "", keyWord);
+    public Map<PropertyLocation, List<Property>> searchProperties(String tenant, String namespace, String app, String file, String keyWord) {
+        List<Property> properties = propertiesRepo.searchByKeyAndLocationRegexes(tenant, namespace, app, file, keyWord);
         return groupProperties(properties);
     }
 
