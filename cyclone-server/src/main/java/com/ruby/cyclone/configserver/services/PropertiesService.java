@@ -63,8 +63,11 @@ public class PropertiesService {
         }
 
         List<Property> properties = buildProperties(propertyRequest, applications);
-
-        propertiesRepo.saveAll(properties);
+        properties.forEach(p -> {
+            if (!propertiesRepo.existsById(p.getId())) {
+                propertiesRepo.save(p);
+            }
+        });
     }
 
     private List<Property> buildProperties(@NotNull AddNewPropertyRequest propertyRequest, @NotNull List<Application> apps) {
