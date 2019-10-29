@@ -49,9 +49,11 @@ public class AppService {
         if (!namespaceRepo.existsById(namespaceId)) {
             throw NAMESPACE_NOT_FOUND;
         }
-        AppId id = requestApplication.getId();
-        id.setApplication(requestApplication.getName());
-        id.setNamespace(namespaceId);
+        AppId appId = AppId.builder()
+                .application(requestApplication.getName())
+                .namespace(namespaceId)
+                .build();
+        requestApplication.setId(appId);
         return applicationRepo.save(requestApplication);
     }
 }
