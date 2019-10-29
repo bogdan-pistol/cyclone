@@ -47,6 +47,7 @@ public class TenantService {
 
     @Transactional
     public Tenant save(Tenant tenant) {
+        tenant.setId(tenant.getName());
         return this.tenantRepo.save(tenant);
     }
 

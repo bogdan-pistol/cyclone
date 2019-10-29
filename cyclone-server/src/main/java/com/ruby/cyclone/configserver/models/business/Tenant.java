@@ -25,8 +25,11 @@ import java.util.List;
 @NoArgsConstructor
 public class Tenant {
 
+    @JsonIgnore
     @Id
     private String id;
+
+    private String name;
 
     private String description;
 

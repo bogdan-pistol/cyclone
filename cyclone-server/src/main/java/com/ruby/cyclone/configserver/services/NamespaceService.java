@@ -41,6 +41,7 @@ public class NamespaceService {
                     "This tenant doesn't exists, " + tenant);
         }
         namespace.getId().setTenant(tenant);
+        namespace.getId().setNamespace(namespace.getName());
         if (namespaceRepo.existsById(namespace.getId())) {
             throw new RestException(HttpStatus.BAD_REQUEST, "Namespace already exists.");
         }

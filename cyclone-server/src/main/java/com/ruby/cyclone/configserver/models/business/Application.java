@@ -21,8 +21,11 @@ import java.util.Set;
 @AllArgsConstructor
 public class Application {
 
+    @JsonIgnore
     @Id
     private AppId id;
+
+    private String name;
 
     private String description;
 

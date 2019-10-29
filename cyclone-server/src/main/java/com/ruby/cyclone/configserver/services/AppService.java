@@ -50,6 +50,7 @@ public class AppService {
             throw NAMESPACE_NOT_FOUND;
         }
         AppId id = requestApplication.getId();
+        id.setApplication(requestApplication.getName());
         id.setNamespace(namespaceId);
         return applicationRepo.save(requestApplication);
     }

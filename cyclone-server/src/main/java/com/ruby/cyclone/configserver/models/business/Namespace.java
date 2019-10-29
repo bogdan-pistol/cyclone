@@ -25,8 +25,11 @@ import java.util.Set;
 @NoArgsConstructor
 public class Namespace {
 
+    @JsonIgnore
     @Id
     private NamespaceId id;
+
+    private String name;
 
     private String description;
 
