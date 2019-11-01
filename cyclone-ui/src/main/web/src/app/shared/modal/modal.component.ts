@@ -7,8 +7,8 @@ import {
 } from "@angular/material/dialog";
 
 export interface DialogData {
-  animal: string;
   name: string;
+  description: string;
 }
 
 @Component({

@@ -7,41 +7,43 @@ import { HomeComponent } from "./home/home.component";
 import { HeaderComponent } from "./header/header.component";
 import { LeftMenuComponent } from "./left-menu/left-menu.component";
 import { MaterialModule } from "./shared/material.module";
-import { ListCountriesComponent } from "./list-countries/list-countries.component";
-import { ListNamespacesComponent } from "./list-namespaces/list-namespaces.component";
-import { ListConfigComponent } from "./list-config/list-config.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { StepsComponent } from "./steps/steps.component";
 import { StepperComponent } from "./stepper/stepper.component";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { ListTenantsComponent } from "./list-tenants/list-tenants.component";
+import { SharedModule } from "./shared/modules/shared.module";
+import { HttpService } from "./shared/services/http.service";
 import { SimpleNotificationsModule } from "angular2-notifications";
 import { ModalComponent } from "./shared/modal/modal.component";
+import { TenantsModule } from "./tenants/tenants.module";
+import { NamespacesModule } from "./namespaces/namespaces.module";
+import { CountriesModule } from "./countries/countries.module";
+import { FilesModule } from "./files/files.module";
+import { PropertiesModule } from "./properties/properties.module";
+import { HttpClientModule } from "@angular/common/http";
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     HeaderComponent,
     LeftMenuComponent,
-    ListCountriesComponent,
-    ListNamespacesComponent,
-    ListConfigComponent,
-    StepsComponent,
-    StepperComponent,
-    ListTenantsComponent
+    StepperComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
     AppRoutingModule,
     MaterialModule,
     NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
+    NamespacesModule,
+    TenantsModule,
+    CountriesModule,
+    FilesModule,
+    PropertiesModule,
     SimpleNotificationsModule.forRoot()
   ],
   entryComponents: [ModalComponent],
-  providers: [],
+  providers: [HttpService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -8,6 +8,7 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatDialogModule } from "@angular/material/dialog";
 import { ModalComponent } from "./modal/modal.component";
 import { FormsModule } from "@angular/forms";
+import { MatRippleModule } from "@angular/material/core";
 @NgModule({
   declarations: [ModalComponent],
   imports: [
@@ -18,7 +19,8 @@ import { FormsModule } from "@angular/forms";
     MatInputModule,
     MatStepperModule,
     MatRadioModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRippleModule
   ],
   exports: [
     MatButtonModule,
@@ -27,7 +29,8 @@ import { FormsModule } from "@angular/forms";
     MatStepperModule,
     MatRadioModule,
     MatDialogModule,
-    ModalComponent
+    ModalComponent,
+    MatRippleModule
   ]
 })
 export class MaterialModule {}
