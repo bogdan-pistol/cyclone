@@ -1,0 +1,21 @@
+
+.row {
+  margin: 10px -10px;
+}
+
+.card-body {
+  padding-bottom: 2rem;
+}
+
+::ng-deep .mat-radio-container {
+  bottom: 10px;
+  left: 48%;
+  position: absolute !important;
+}
+
+::ng-deep .mat-radio-label-content {
+  position: relative !important;
+  width: 100%;
+  text-align: center;
+  padding-left: 0 !important;
+}

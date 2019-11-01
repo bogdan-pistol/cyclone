@@ -1,4 +1,4 @@
 export class Country {
   name: string;
-  id: string;
+  icon: string;
 }

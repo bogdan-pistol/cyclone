@@ -1,0 +1,51 @@
+<div class="fluid-container">
+  <div class="row">
+    <form [formGroup]="listFilesForm" class="container-fluid">
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="row mx-0"
+        formControlName="selectedFile"
+      >
+        <div
+          class=" col-12 col-md-4"
+          *ngFor="let file of listFiles; let i = index"
+        >
+          <mat-radio-button
+            class="card col-12 text-white shadow-sm"
+            [ngClass]="{
+              'bg-primary': i == 0,
+              'bg-secondary': i == 1,
+              'bg-success': i == 2,
+              'bg-danger': i == 3,
+              'bg-warning': i == 4,
+              'bg-info': i == 5,
+              'bg-light': i == 6,
+              'bg-dark': i == 7
+            }"
+            [value]="file['name']"
+            required
+            (click)="validateCrtStep(file['name'])"
+          >
+            <div class="card-header">
+              <p class="card-text">
+                {{ file["name"] }}
+              </p>
+            </div>
+            <div class="card-body">
+              <i class="material-icons my-4 text-center">
+                {{ icons.countries[i] }}
+              </i>
+            </div>
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+      <div class="col-12 col-lg-4">
+        <div class="card col-12 col-lg-8  shadow-sm">
+          <div class="card-body text-center">
+            <a class="addNewAnchor" (click)="openDialog()">+</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

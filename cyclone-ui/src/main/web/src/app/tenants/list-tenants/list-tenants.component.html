@@ -1,0 +1,59 @@
+<div class="fluid-container">
+  <div class="row">
+    <form [formGroup]="listTenantsForm" class="container-fluid">
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="row mx-0"
+        formControlName="selectedTenant"
+      >
+        <div
+          class=" col-12 col-md-4"
+          *ngFor="let tenant of listTenants; let i = index"
+        >
+          <mat-radio-button
+            class="card col-12 text-white shadow-sm"
+            [ngClass]="{
+              'bg-primary': i == 0,
+              'bg-secondary': i == 1,
+              'bg-success': i == 2,
+              'bg-danger': i == 3,
+              'bg-warning': i == 4,
+              'bg-info': i == 5,
+              'bg-light': i == 6,
+              'bg-dark': i == 7
+            }"
+            [value]="tenant['name']"
+            required
+            (click)="validateCrtStep(tenant['name'])"
+          >
+            <div class="card-header px-0">
+              <p class="card-text">
+                {{ tenant["name"] }}
+              </p>
+            </div>
+            <div class="card-body">
+              <i class="material-icons my-4 text-center">
+                {{ icons.tenants[i] }}
+              </i>
+            </div>
+            <div
+              class="removeBtn"
+              (click)="removeTenant($event, tenant['name'])"
+            >
+              <i class="material-icons">
+                clear
+              </i>
+            </div>
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+      <div class="col-12 col-lg-4">
+        <div class="card col-12 col-lg-8  shadow-sm">
+          <div class="card-body text-center">
+            <a class="addNewAnchor" (click)="openDialog()">+</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
