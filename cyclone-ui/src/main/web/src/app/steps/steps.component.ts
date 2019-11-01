@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { keyframes } from '@angular/animations';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, ParamMap } from "@angular/router";
+import { keyframes } from "@angular/animations";
 @Component({
-  selector: 'app-steps',
-  templateUrl: './steps.component.html',
-  styleUrls: ['./steps.component.scss']
+  selector: "app-steps",
+  templateUrl: "./steps.component.html",
+  styleUrls: ["./steps.component.scss"]
 })
 export class StepsComponent implements OnInit {
   private queryParamMap: any;
@@ -15,7 +15,6 @@ export class StepsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.crtStep);
     this.activatedRoute.queryParamMap.subscribe(queryParamMap => {
       this.queryParamMap = queryParamMap;
       this.checkQueryParameters(this.queryParamMap.params);
@@ -29,11 +28,11 @@ export class StepsComponent implements OnInit {
       this.crtStep = 1;
       this.showBack = false;
     }
-    if (steps.length === 1 && steps.indexOf('namespace') === 0) {
+    if (steps.length === 1 && steps.indexOf("namespace") === 0) {
       this.crtStep = 2;
       this.showBack = true;
     }
-    if (steps.length === 2 && steps.indexOf('country') === 1) {
+    if (steps.length === 2 && steps.indexOf("country") === 1) {
       this.crtStep = 3;
       this.showBack = true;
     }
