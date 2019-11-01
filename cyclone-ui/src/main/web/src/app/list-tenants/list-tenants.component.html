@@ -1,0 +1,30 @@
+<div class="fluid-container">
+  <div class="row">
+    <form [formGroup]="listTenants" class="container">
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="row"
+        formControlName="selectedTenant"
+      >
+        <mat-radio-button
+          class="card col-4 shadow-sm"
+          *ngFor="let tenant of tenants"
+          [value]="tenant.name"
+          required
+          (click)="validateCrtStep(tenant.name)"
+        >
+          <div class="card-header">
+            <p class="card-text">
+              {{ tenant.name }}
+            </p>
+          </div>
+          <div class="card-body">
+            <i class="material-icons my-4 text-center">
+              {{ tenant.icon }}
+            </i>
+          </div>
+        </mat-radio-button>
+      </mat-radio-group>
+    </form>
+  </div>
+</div>
