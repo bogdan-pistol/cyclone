@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NotificationsService } from "angular2-notifications";
+
 @Component({
   selector: "app-stepper",
   templateUrl: "./stepper.component.html",
@@ -10,7 +11,8 @@ export class StepperComponent implements OnInit {
   listTenants: FormGroup;
   listCountries: FormGroup;
   listNamespaces: FormGroup;
-  listConfig: FormGroup;
+  listFiles: FormGroup;
+  listProperties: FormGroup;
   isLinear = true;
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +27,12 @@ export class StepperComponent implements OnInit {
     this.listCountries = this.formBuilder.group({
       control: ["", Validators.required]
     });
-    this.listConfig = new FormGroup({});
+    this.listFiles = this.formBuilder.group({
+      control: ["", Validators.required]
+    });
+    this.listProperties = this.formBuilder.group({
+      control: ["", Validators.required]
+    });
   }
 
   ngOnInit() {}

@@ -1,0 +1,60 @@
+<div class="fluid-container">
+  <div class="row">
+    <form [formGroup]="listCountriesForm" class="container-fluid">
+      <mat-radio-group
+        aria-labelledby="example-radio-group-label"
+        class="row mx-0"
+        formControlName="selectedCountry"
+      >
+        <div
+          class=" col-12 col-md-4"
+          *ngFor="let country of listCountries; let i = index"
+        >
+          <mat-radio-button
+            class="card col-12 text-white shadow-sm"
+            [ngClass]="{
+              'bg-primary': i == 0,
+              'bg-secondary': i == 1,
+              'bg-success': i == 2,
+              'bg-danger': i == 3,
+              'bg-warning': i == 4,
+              'bg-info': i == 5,
+              'bg-light': i == 6,
+              'bg-dark': i == 7
+            }"
+            [value]="country['name']"
+            required
+            (click)="validateCrtStep(country['name'])"
+          >
+            <div class="card-header">
+              <p class="card-text">
+                {{ country["name"] }}
+              </p>
+            </div>
+            <div class="card-body">
+              <!-- <span class="flag-icon flag-icon-{{ country.icon }}"></span> -->
+              <i class="material-icons my-4 text-center">
+                {{ icons.countries[i] }}
+              </i>
+            </div>
+            <div
+              class="removeBtn"
+              (click)="removeCountry($event, country['name'])"
+            >
+              <i class="material-icons">
+                remove_circle
+              </i>
+            </div>
+          </mat-radio-button>
+        </div>
+      </mat-radio-group>
+      <div class="col-12 col-lg-4">
+        <div class="card col-12 col-lg-8  shadow-sm">
+          <div class="card-body text-center">
+            <a class="addNewAnchor" (click)="openDialog()">+</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

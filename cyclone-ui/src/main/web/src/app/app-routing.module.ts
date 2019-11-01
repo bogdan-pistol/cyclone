@@ -1,41 +1,41 @@
-import { ListNamespacesComponent } from './list-namespaces/list-namespaces.component';
-import { NgModule, Component } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ListCountriesComponent } from './list-countries/list-countries.component';
-import { ListConfigComponent } from './list-config/list-config.component';
+import { NgModule, Component } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { HomeComponent } from "./home/home.component";
+import { ListCountriesComponent } from "./countries/list-countries/list-countries.component";
+import { ListFilesComponent } from "./files/list-files/list-files.component";
+import { ListNamespacesComponent } from "./namespaces/list-namespaces/list-namespaces.component";
 const routes: Routes = [
   {
-    path: 'namespaces',
+    path: "namespaces",
     component: ListNamespacesComponent,
     children: [
       {
-        path: ':id',
+        path: ":id",
         component: ListCountriesComponent,
         children: [
           {
-            path: ':id',
-            component: ListConfigComponent
+            path: ":id",
+            component: ListFilesComponent
           }
         ]
       }
     ]
   },
   {
-    path: 'home',
+    path: "home",
     component: HomeComponent
   },
   {
-    path: 'countries',
+    path: "countries",
     component: ListCountriesComponent
   },
   {
-    path: 'list-config',
-    component: ListConfigComponent
+    path: "list-config",
+    component: ListFilesComponent
   },
   {
-    path: '**',
-    redirectTo: 'home'
+    path: "**",
+    redirectTo: "home"
   }
 ];
 

@@ -1,0 +1,29 @@
+<form class="example-form" *ngIf="listProperties?.length > 0; else noData">
+  <div *ngFor="let propertie of listProperties">
+    <div class="col-12 pl-0">
+      <span class="badge badge-primary">Key: {{ propertie.id.key }}</span>
+    </div>
+
+    <div class="col-12 pl-0"><b>Name: </b></div>
+    <div class="col-12 pl-0">
+      <span *ngIf="propertie.name.length > 0; else noName">{{
+        propertie.name
+      }}</span>
+      <ng-template #noName>...</ng-template>
+    </div>
+    <div class="col-12 pl-0"><b>Value: </b></div>
+    <mat-form-field class="col-12 col-md-4 pl-0">
+      <input
+        matInput
+        placeholder="{{ propertie.name }}"
+        value="{{ propertie.value }}"
+      />
+    </mat-form-field>
+  </div>
+</form>
+
+<ng-template #noData>
+  <div class="alert alert-warning" role="alert">
+    No data available
+  </div></ng-template
+>
