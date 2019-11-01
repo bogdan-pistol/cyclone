@@ -1,18 +1,22 @@
 package com.ruby.cyclone.configserver.controllers;
 
-import com.ruby.cyclone.configserver.models.api.request.AddNamespaceRequest;
+import com.ruby.cyclone.configserver.models.business.Namespace;
+import com.ruby.cyclone.configserver.models.business.NamespaceId;
 import com.ruby.cyclone.configserver.services.NamespaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
+@CrossOrigin
 @RestController
-@RequestMapping("api/namespaces")
+@RequestMapping("api/v1/tenants/{tenant}/namespaces")
 public class NamespacesController {
 
-
-    private NamespaceService namespaceService;
+    private final NamespaceService namespaceService;
 
     @Autowired
     public NamespacesController(NamespaceService namespaceService) {
@@ -20,18 +24,23 @@ public class NamespacesController {
     }
 
     @GetMapping
-    public List<String> getNamespaces() {
-        return namespaceService.getNamespaces();
+    public List<Namespace> getNamespaces(@PathVariable String tenant) {
+        return namespaceService.getNamespacesByTenant(tenant);
+    }
+
+    @GetMapping("/{namespace}")
+    public Optional<Namespace> getNamespace(@PathVariable String tenant, @PathVariable("namespace") String namespace) {
+        return namespaceService.findById(NamespaceId.builder().tenant(tenant).namespace(namespace).build());
     }
 
     @PostMapping
-    public String addNamespace(@RequestBody AddNamespaceRequest namespaceRequest) {
-        return namespaceService.addNamespace(namespaceRequest);
+    public Namespace createNamespace(@PathVariable String tenant, @RequestBody Namespace namespace) {
+        return namespaceService.addNamespace(tenant, namespace);
     }
 
     @DeleteMapping("/{namespace}/archive")
-    public void archive(@PathVariable String namespace) {
-        namespaceService.archive();
+    public void archive(@PathVariable String tenant, @PathVariable String namespace) {
+        namespaceService.archive(NamespaceId.builder().namespace(namespace).tenant(tenant).build());
     }
 
 }

@@ -1,0 +1,461 @@
+{
+	"info": {
+		"_postman_id": "70f40111-95c2-4b84-8529-0d851566545d",
+		"name": "Cyclone-MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tenants",
+			"item": [
+				{
+					"name": "list tenants",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "993236bd-14c4-4d24-90fc-46711f8116a9",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"tenantId\", jsonData[0].id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/v1/tenants",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"v1",
+								"tenants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfed0c30-a7de-405b-bfd0-22b149fba193",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"tenantId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d5695d0f-9121-49fe-a62b-99c07faaae9e",
+								"exec": [
+									"postman.setEnvironmentVariable(\"timeInSeconds\", parseInt((new Date()).getTime() / 1000));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"tenant name {{timeInSeconds}}\",\n\t\"description\": \"tenant description {{timeInSeconds}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/v1/tenants",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"v1",
+								"tenants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfed0c30-a7de-405b-bfd0-22b149fba193",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/v1/tenants/{{tenantId}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"v1",
+								"tenants",
+								"{{tenantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfed0c30-a7de-405b-bfd0-22b149fba193",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"tenant name 1\",\n\t\"description\": \"tenant description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/v1/tenants/{{tenantId}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"v1",
+								"tenants",
+								"{{tenantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove tenant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfed0c30-a7de-405b-bfd0-22b149fba193",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/v1/tenants/{{tenantId}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"v1",
+								"tenants",
+								"{{tenantId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add tenant namespace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bfed0c30-a7de-405b-bfd0-22b149fba193",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d5695d0f-9121-49fe-a62b-99c07faaae9e",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{endpoint}}/v1/tenants/{{tenantId}}/namespaces/{{namespaceName}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"v1",
+								"tenants",
+								"{{tenantId}}",
+								"namespaces",
+								"{{namespaceName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Namespaces",
+			"item": [
+				{
+					"name": "list namespaces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/namespaces",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"namespaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create namespace",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0be7925d-7b0e-4877-9baf-6a08b08688c8",
+								"exec": [
+									"postman.setEnvironmentVariable(\"timeInSeconds\", parseInt((new Date()).getTime() / 1000));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f379bc00-da70-4d6c-ac00-f71905185dd3",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"namespaceName\", jsonData.name);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"DEMO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/namespaces",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"namespaces"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "view namespace",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0be7925d-7b0e-4877-9baf-6a08b08688c8",
+								"exec": [
+									"postman.setEnvironmentVariable(\"timeInSeconds\", parseInt((new Date()).getTime() / 1000));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f379bc00-da70-4d6c-ac00-f71905185dd3",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"namespaceId\", jsonData.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{endpoint}}/namespaces/{{namespaceName}}",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"namespaces",
+								"{{namespaceName}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Countries",
+			"item": [
+				{
+					"name": "list countries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/namespaces/{{namespaceName}}/countries",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"namespaces",
+								"{{namespaceName}}",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create country",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"country\": \"ORO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{endpoint}}/namespaces/{{namespaceName}}/countries",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"namespaces",
+								"{{namespaceName}}",
+								"countries"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Files",
+			"item": [],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Properties",
+			"item": [],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -9,8 +9,9 @@ import lombok.*;
 @Builder
 @EqualsAndHashCode
 public class AddNewPropertyRequest<T> {
+    private String tenant;
     private String key;
     private T defaultValue;
-    private String file;
+    private String file = "application.properties";
     private String description;
 }

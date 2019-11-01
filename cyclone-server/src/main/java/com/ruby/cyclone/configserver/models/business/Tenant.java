@@ -2,32 +2,32 @@ package com.ruby.cyclone.configserver.models.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import javax.validation.constraints.NotBlank;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Document(collection = "namespaces")
+@Document(collection = "tenants")
 @Data
 @Builder
+@EqualsAndHashCode
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Namespace {
+public class Tenant {
 
     @JsonIgnore
     @Id
-    private NamespaceId id;
+    private String id;
 
     private String name;
 

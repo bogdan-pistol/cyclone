@@ -1,8 +1,9 @@
 package com.ruby.cyclone.configserver.models.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -12,27 +13,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.Instant;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "properties")
-public class Property<T> {
+@EqualsAndHashCode
+public class PropsFile {
 
-    @Id
-    private PropertyId id;
+    private String name;
 
-    private String name = "";
+    private String description;
 
-    private T value;
-
-    private String description = "";
-
-    @JsonIgnore
     @CreatedDate
+    @JsonIgnore
     private Instant createdAt;
 
     @JsonIgnore
     @LastModifiedDate
     private Instant modifiedAt;
 
+    public PropsFile(String name) {
+        this.name = name;
+    }
 }
-
-

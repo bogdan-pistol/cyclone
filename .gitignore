@@ -67,3 +67,5 @@ build/
 *e2e_test.*
 **/modules/rollup-test/dist
 **/node
+
+application-local.properties

@@ -1,21 +1,23 @@
 package com.ruby.cyclone.configserver.models.business;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 public class PropertyId {
 
-    private String key;
+    private String tenant;
+    @Indexed
     private String namespace;
-    private String country;
-    private String file = "application.properties";
+    @Indexed
+    private String application;
+    @Indexed
+    private String file;
+    @Indexed
+    private String key;
+
 }
-
-

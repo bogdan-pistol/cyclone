@@ -1,29 +1,38 @@
 package com.ruby.cyclone.configserver.models.business;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
+@Document(collection = "applications")
 @Data
-@NoArgsConstructor
-@Document(collection = "properties")
-public class Property<T> {
+@Builder
+@Getter @Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+public class Application {
 
+    @JsonIgnore
     @Id
-    private PropertyId id;
+    private AppId id;
 
-    private String name = "";
+    private String name;
 
-    private T value;
+    private String description;
 
-    private String description = "";
+    @JsonIgnore
+    @Field
+    @UniqueElements
+    private Set<PropsFile> files = new HashSet<>();
 
     @JsonIgnore
     @CreatedDate
@@ -34,5 +43,3 @@ public class Property<T> {
     private Instant modifiedAt;
 
 }
-
-
